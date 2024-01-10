@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Country-Deployment
+metadata:
+  name: app
+  labels:
+    app: app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+      - name: app
+        image: naveenkumar06/countrybank:latest
+        ports:
+        - containerPort: 8000
+
+---
+
+apiVersion: v1
+kind: Country-Service
+metadata:
+  name: app
+  labels:
+    app: app
+spec:
+  type: NodePort
+  ports:
+  - port: 8000
+    targetPort: 8000
+    nodePort: 30007
+  selector:
+    app: app
